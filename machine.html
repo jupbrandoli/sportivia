@@ -4,15 +4,206 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPORTIVIA</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #main-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e6e0c7;
+            border-radius: 20px;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Menu icon on the left */
+        .menu-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+        }
+
+        .menu-icon div {
+            width: 30px;
+            height: 5px;
+            background-color: #333;
+            margin: 6px 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .avatar-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .avatar-container img {
+            width: 100px;
+            height: 100px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #0051FF;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: #003BBF;
+        }
+
+        /* Hidden elements for results */
+        #result-container, #label-container {
+            display: none;
+        }
+
+        .result-image {
+            width: 300px; /* Ajuste o tamanho da largura da imagem */
+            height: auto; /* Mantém a proporção correta da imagem */
+            border-radius: 10px; /* Aplica bordas arredondadas às imagens */
+            margin-bottom: 20px; /* Espaçamento inferior para separar a imagem do texto */
+        }
+
+/* Estilos para o ícone do menu */
+.menu-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 150px; /* Largura do ícone do menu */
+    height: 40px; /* Altura do ícone do menu */
+    background-color: #007bff; /* Cor de fundo do ícone do menu */
+    border-radius: 5px; /* Bordas arredondadas */
+    text-align: center;
+}
+
+/* Estilos para o link dentro do ícone do menu */
+.menu-icon a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none; /* Remove o sublinhado do link */
+    color: white; /* Cor do texto do link */
+    line-height: 40px; /* Centraliza o texto verticalmente */
+    font-size: 14px; /* Tamanho da fonte */
+    font-weight: bold; /* Negrito no texto */
+}
+
+    </style>
 </head>
 <body>
-   
-    
-<button type="button" onclick="init()">Start</button>
-<div><canvas id="canvas"></canvas></div>
-<div id="label-container"></div>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
+
+    <!-- Main container with the central layout -->
+    <div id="main-container">
+        <!-- Menu icon -->
+        <div class="menu-icon">
+            <a href="sobre.html" class="menu-icon">Sobre Nós</a>
+        </div>
+
+        <h1>SPORTIVIA</h1>
+
+        <!-- Avatar container -->
+        <div class="avatar-container">
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <!-- Start button -->
+        <button onclick="captureGesture()">Iniciar Reconhecimento</button>
+    </div>
+
+    <!-- Hidden elements for results and canvas -->
+    <div id="result-container"></div>
+    <canvas id="canvas" style="display: none;"></canvas>
+    <div id="label-container"></div>
+
+    <!-- Scripts necessários -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
     <script src="tensor.js"></script>
+    <script>async function captureGesture() {
+        capturing = true;
+        const results = Array(maxPredictions).fill(0);
+        const samples = 30;
+    
+        for (let i = 0; i < samples; i++) {
+            const { posenetOutput } = await model.estimatePose(webcam.canvas);
+            const prediction = await model.predict(posenetOutput);
+    
+            for (let j = 0; j < maxPredictions; j++) {
+                results[j] += prediction[j].probability;
+            }
+    
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+    
+        const averages = results.map(result => result / samples);
+        const maxIndex = averages.indexOf(Math.max(...averages));
+        const resultClass = model.getClassLabels()[maxIndex];
+    
+        const confidence = (averages[maxIndex] * 100).toFixed(0);
+        const details = getClassDetails(resultClass);
+    
+        // Armazenar os dados no localStorage
+        localStorage.setItem('resultData', JSON.stringify({
+            poseTitle: details.name,
+            poseImage: details.image,
+            poseDescription: details.description,
+            confidence: confidence
+        }));
+    
+        // Redireciona para a página de resultados
+        window.location.href = 'resultado.html';
+    
+        capturing = false;
+    }
+    
+    function getClassDetails(resultClass) {
+        const classDetails = {
+            "Saque": {
+                name: "Saque",
+                image: "portal-educacao-blog-volei-3.webp",
+                description: "O saque é o fundamento que dá início ao jogo ou ao rally. Para executar um saque, o sacador segura a bola com uma mão e com a outra lança por cima da rede em direção à quadra adversária."
+            },
+            "Levantamento": {
+                name: "Levantamento",
+                image: "Macris-Instagram.jpg.webp",
+                description: "O levantamento é um fundamento essencial no voleibol, onde os jogadores realizam a ação de elevar a bola após a recepção, com o objetivo de facilitar um ataque. Para um bom levantamento, é importante flexionar levemente os joelhos, manter as costas retas e os cotovelos em um ângulo adequado, garantindo que a bola ganhe altura suficiente para um ataque eficiente."
+            },
+            "Não é fundamento": {
+                name: "Fundamento não identificado",
+                image: "Vôlei.jpg",
+                description: "A pose detectada não corresponde nem a um levantamento nem a um saque."
+            }
+        };
+    
+        return classDetails[resultClass] || {
+            name: "Desconhecido",
+            image: "URL_DA_IMAGEM_CORRESPONDENTE",
+            description: "Não foi possível determinar o fundamento."
+        };
+    }
+    </script>
+
 </body>
 </html>

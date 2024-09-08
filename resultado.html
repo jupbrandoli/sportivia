@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado - SPORTIVIA</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #result-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100vh;
+            background-color: #FFEB8A;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #result-container h2 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        #result-container img {
+            max-width: 200px;
+            border-radius: 10px;
+        }
+
+        #result-container p {
+            background-color: #001F7F;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin-left: 10px;
+            text-align: center;
+            width: 300px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contêiner de resultado -->
+    <div id="result-container">
+        <div>
+            <h2 id="pose-title">Título da Pose</h2>
+            <img id="pose-image" src="" alt="Pose Image" />
+        </div>
+        <p id="pose-description">Descrição da pose detectada.</p>
+    </div>
+
+    <!-- Script para carregar dados -->
+    <script>
+        function displayResult() {
+            // Recupera os dados do localStorage
+            const resultData = JSON.parse(localStorage.getItem('resultData'));
+
+            console.log(resultData); // Adicione esta linha para verificar os dados armazenados
+
+            if (resultData) {
+                document.getElementById("pose-title").innerText = resultData.poseTitle;
+                document.getElementById("pose-image").src = resultData.poseImage;
+                document.getElementById("pose-description").innerText = `${resultData.poseDescription} Confiança: ${resultData.confidence}%`;
+            } else {
+                document.getElementById("pose-title").innerText = "Nenhum dado encontrado";
+                document.getElementById("pose-description").innerText = "";
+                document.getElementById("pose-image").src = ""; // Adicione uma imagem padrão ou mantenha vazio
+            }
+        }
+
+        // Chama a função quando a página é carregada
+        window.onload = displayResult;
+    </script>
+
+</body>
+</html>

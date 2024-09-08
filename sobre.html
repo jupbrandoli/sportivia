@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #main-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e6e0c7;
+            border-radius: 20px;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Menu icon on the left */
+        .menu-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+        }
+
+        .menu-icon div {
+            width: 30px;
+            height: 5px;
+            background-color: #333;
+            margin: 6px 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .avatar-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .avatar-container img {
+            width: 100px;
+            height: 100px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #0051FF;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: #003BBF;
+        }
+
+        /* Hidden elements for results */
+        #result-container, #label-container {
+            display: none;
+        }
+/* Estilos para o ícone do menu */
+.menu-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 150px; /* Largura do ícone do menu */
+    height: 40px; /* Altura do ícone do menu */
+    background-color: #007bff; /* Cor de fundo do ícone do menu */
+    border-radius: 5px; /* Bordas arredondadas */
+    text-align: center;
+}
+
+/* Estilos para o link dentro do ícone do menu */
+.menu-icon a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none; /* Remove o sublinhado do link */
+    color: white; /* Cor do texto do link */
+    line-height: 40px; /* Centraliza o texto verticalmente */
+    font-size: 14px; /* Tamanho da fonte */
+    font-weight: bold; /* Negrito no texto */
+}
+
+/* Efeito de hover no link */
+.menu-icon a:hover {
+    background-color: #0056b3; /* Cor de fundo quando o link é hover */
+}
+
+/* Adicionando um efeito de transição no link */
+.menu-icon a {
+    transition: background-color 0.3s; /* Transição suave para a cor do hover */
+}
+        
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <div class="menu-icon">
+            <a href="machine.html" class="menu-icon">Avaliar Fundamento</a>
+        </div>
+        <h1>Sobre</h1>
+        <p>Bem-vindo ao nosso aplicativo de aprendizado de voleibol! Nosso objetivo é ajudar você a dominar os fundamentos do voleibol de maneira prática e intuitiva. Utilizando a tecnologia de reconhecimento de imagens, o aplicativo analisa a postura corporal do usuário e identifica os fundamentos do esporte, como saque e levantamento. Desenvolvido com o Teachable Machine e integrado com JavaScript, HTML e CSS, nosso sistema é projetado para fornecer feedback preciso e instantâneo. Embora inicialmente tenhamos incluído vários fundamentos, optamos por focar nas classes de não fundamento, levantamento e saque para garantir uma maior precisão nas análises. Estamos comprometidos em expandir e melhorar continuamente nosso aplicativo. Nos próximos passos, planejamos adicionar novas classes e refinar a IA para oferecer uma experiência ainda mais enriquecedora. Agradecemos por usar nosso aplicativo e esperamos que ele ajude você a aprimorar suas habilidades no voleibol! Se tiver alguma dúvida ou feedback, não hesite em nos contatar.</p>
+    </div>
+</body>
+</html>
